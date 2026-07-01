@@ -1,0 +1,25 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"   # runs every Monday at 12:00 UTC
+  workflow_dispatch:         # can also be triggered manually
+
+permissions:
+  contents: write
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Keep workflows alive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "keep alive $(date)" > keep_alive.txt
+          git add keep_alive.txt
+          git commit -m "chore: keep workflows alive"
+          git push
