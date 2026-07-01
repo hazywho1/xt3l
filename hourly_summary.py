@@ -13,7 +13,7 @@ import requests
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
-TOP_N = 10  # number of top gainers to show
+TOP_N = 3  # number of top gainers to show
 
 
 def send_telegram_message(text):
