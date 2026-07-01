@@ -1,0 +1,27 @@
+name: XT 3L Hourly Top Gainers
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # runs at the top of every hour (e.g. 1:00, 2:00, 3:00...)
+  workflow_dispatch:       # lets you manually trigger it from GitHub's UI for testing
+
+jobs:
+  hourly-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install ccxt requests
+
+      - name: Send hourly top gainers summary
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python hourly_summary.py
